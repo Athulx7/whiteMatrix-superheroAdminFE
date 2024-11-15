@@ -73,7 +73,7 @@ function Header() {
           >
             <Link
               to={"/"}
-              className="block lg:inline-block text-gray-700 hover:text-red-700 hover:font-bold py-2 lg:py-0 transition-transform duration-500 hover:scale-105"
+              className="block lg:inline-block text-black hover:text-red-700 hover:font-bold py-2 lg:py-0 transition-transform duration-500 hover:scale-105"
             >
               <FontAwesomeIcon icon={faHouse} size="2x" />
              
@@ -83,7 +83,7 @@ function Header() {
 
             <Link
               to={"/userdetail"}
-              className="block  lg:inline-block text-gray-700 hover:text-red-700 hover:font-bold py-2 lg:py-0 transition-transform duration-500 hover:scale-105"
+              className="block  lg:inline-block text-black hover:text-red-700 hover:font-bold py-2 lg:py-0 transition-transform duration-500 hover:scale-105"
             >
               <FontAwesomeIcon icon={faUser} size="2x" />
               <span className="ml-2 px-2 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-full">
@@ -93,7 +93,7 @@ function Header() {
 
             <Link
               to={"/viewGrievance"}
-              className="block lg:inline-block text-gray-700 hover:text-red-700 hover:font-bold py-2 lg:py-0 transition-transform duration-500 hover:scale-105"
+              className="block lg:inline-block text-black hover:text-red-700 hover:font-bold py-2 lg:py-0 transition-transform duration-500 hover:scale-105"
             >
               <FontAwesomeIcon icon={faBell} size="2x" />
               <span className="ml-2 px-2 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-full">
