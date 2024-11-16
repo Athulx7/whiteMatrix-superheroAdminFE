@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-function MainDash() {
+function MainDash({usedetailas,grievnaceData}) {
   return (
     <>
       <div className="container mx-auto flex flex-col items-center justify-around mt-44 lg:mt-48 mb-48 space-y-6 md:flex-row  md:mt-32 px-4 md:px-10 lg:px-32  md:space-y-0">
@@ -20,7 +20,7 @@ function MainDash() {
                 icon={faUser}
                 className="text-2xl text-red-800"
               />
-              <h4 className="ml-2 font-bold text-black text-lg">4</h4>
+              <h4 className="ml-2 font-bold text-black text-lg">{usedetailas?.length}</h4>
             </div>
             <p className="text-center text-gray-600 mt-2">
               Click to see more user details
@@ -36,7 +36,7 @@ function MainDash() {
                 icon={faBookOpen}
                 className="text-2xl text-red-800"
               />
-              <h4 className="ml-2 font-bold text-black text-lg">2</h4>
+              <h4 className="ml-2 font-bold text-black text-lg">{grievnaceData?.length}</h4>
             </div>
             <p className="text-center text-gray-600 mt-2">
               Click to view grievances

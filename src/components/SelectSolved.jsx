@@ -1,10 +1,12 @@
 import { faArrowLeft, faCheck, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import noimage from '../assets/noimage.png'
+import { getSelectedGrie } from '../Serivces/allAPI'
 
 function SelectSolved() {
+  
   return (
    <>
 
@@ -78,7 +80,7 @@ function SelectSolved() {
     </div>
     <div className="mt-6 lg:mt-0 flex justify-center lg:w-1/2 lg:ms-10">
       <img
-        src={noimage}
+        src="https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
         alt="Blog Image"
         width={200}
         height={300}

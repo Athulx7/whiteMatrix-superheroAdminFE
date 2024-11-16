@@ -1,10 +1,57 @@
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import noimage from '../assets/noimage.png'
+import noimage from "../assets/noimage.png";
+import { getGrievanceDetailsAPI } from "../Serivces/allAPI";
+import { BASEURL } from "../Serivces/baseURL";
 
 function ViewGrievance() {
+  const [grievnaceData, setGrievanceData] = useState([]);
+  const [searhKey,setSearchKey] = useState('')
+
+
+  const [filterData,setFilterData] = useState([])
+  const [filterPriority,setFilterPriority] = useState('')
+  const [filterDate,setFilterDate] = useState('')
+
+  
+  // console.log(searhKey)
+  const getGrievnace = async () => {
+    const result = await getGrievanceDetailsAPI(searhKey);
+    // console.log(result)
+    setGrievanceData(result.data);
+    setFilterData(result.data)
+  };
+
+  // console.log(grievnaceData)
+
+  const handleApplyFilter = ()=>{
+    let filtered = grievnaceData
+
+    if(searhKey){
+      filtered = filtered.filter((item)=>item.location.toLowerCase().includes(searhKey.toLowerCase()))
+    }
+
+    if(filterPriority){
+      filtered = filtered.filter((item)=>item.priority === filterPriority)
+    }
+    if(filterDate){
+      filtered = filtered.filter((item)=>item.date === filterDate)
+    }
+
+    setFilterData(filtered)
+  }
+
+
+
+  useEffect(() => {
+    getGrievnace();
+    // const interval = setInterval(() => {
+    //   getGrievnace();
+    // }, 5000);
+    // return () => clearInterval(interval);
+  }, [searhKey]);
   return (
     <>
       <div className="container mx-auto px-4 md:px-8 lg:px-16 mt-10">
@@ -16,14 +63,15 @@ function ViewGrievance() {
         <hr className="mx-5 md:mx-20" />
 
         <div className="mt-4 ml-5 flex items-center justify-between">
-          <Link to={"/"}>
+          <Link to={"/home"}>
             <button className="bg-red-800 px-4 py-1 rounded text-white border-2 font-bold flex items-center transition-transform duration-500 hover:scale-105">
               <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> BACK TO
             </button>
           </Link>
           <Link to={"/solvedGrievance"}>
             <button className="bg-green-600 px-4 py-1 rounded text-white border-2 font-bold flex items-center transition-transform duration-500 hover:scale-105">
-             VIEW SOLVED <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+              VIEW SOLVED{" "}
+              <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
             </button>
           </Link>
         </div>
@@ -36,6 +84,8 @@ function ViewGrievance() {
               </label>
               <input
                 type="text"
+                onChange={(e)=>setSearchKey(e.target.value)}
+                value={searhKey}
                 className="w-full p-2 border border-gray-700 rounded mb-4 md:mb-0"
                 placeholder="Enter the place of the Incident"
               />
@@ -47,6 +97,8 @@ function ViewGrievance() {
                   FILTER BY PRIORITY
                 </label>
                 <select
+                  onChange={(e)=>setFilterPriority(e.target.value)}
+                  value={filterPriority}
                   name="priority"
                   className="w-full p-2 border rounded border-gray-700"
                 >
@@ -63,13 +115,15 @@ function ViewGrievance() {
                 </label>
                 <input
                   type="date"
+                  onChange={(e)=>setFilterDate(e.target.value)}
+                  value={filterDate}
                   className="w-full p-2 border rounded-md focus:outline-none border-gray-700 focus:ring-2 focus:ring-red-500"
                 />
               </div>
             </div>
 
             <div className="mt-6  md:mt-6 w-full md:w-auto flex justify-center md:justify-end">
-              <button className="bg-red-800 text-white px-4 py-2 rounded-md font-semibold w-full md:w-auto transition-transform duration-500 hover:scale-105">
+              <button onClick={handleApplyFilter} className="bg-red-800 text-white px-4 py-2 rounded-md font-semibold w-full md:w-auto transition-transform duration-500 hover:scale-105">
                 Apply
               </button>
             </div>
@@ -78,52 +132,71 @@ function ViewGrievance() {
 
         {/* griveances  */}
 
-        <div className="border border-gray-600 mt-10 rounded p-4 mb-10 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex justify-center">
-              <Link to={`/selected`}>
-                <img
-                  width={"300"}
-                  height={""}
-                  className="rounded border-2 border-red-800"
-                  src={noimage}
-                />
-              </Link>
-            </div>
+        {filterData?.length > 0 ? (
+          filterData?.map((item) => (
+            <div className="border border-gray-600 mt-10 rounded p-4 mb-10 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex justify-center">
+                  <Link to={`/selected/${item._id}`}>
+                    <img
+                      width={250}
+                      height={""}
+                      className="rounded border-2"
+                      src={
+                        item.evidence
+                          ? `${BASEURL}/uploads/${item.evidence}`
+                          : "https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
+                      }
+                      // src="https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
+                    />
+                  </Link>
+                </div>
 
-            <div>
-              <Link to={`/selected`} className="">
-                <h4 className="font-semibold text-center text-xl md:text-2xl lg:text-3xl hover:text-red-800 hover:underline transition-transform duration-500 hover:scale-105">
-                  TITLE OR SUBJECT (PRIORITY)
-                </h4>
-              </Link>
-              <div className="flex flex-wrap mt-5">
-                <h6 className="font-bold text-sm sm:text-base md:text-lg">
-                  21-01-2024
-                </h6>
-                <h6 className="ms-auto font-bold text-sm sm:text-base md:text-lg">
-                  SUBMITED BY :<span className="text-warning ms-2"> NAME</span>
-                </h6>
+                <div>
+                  <Link to={`/selected/${item._id}`} className="">
+                    <h4 className="font-semibold text-center text-xl md:text-2xl lg:text-3xl hover:text-red-800 hover:underline transition-transform duration-500 hover:scale-105">
+                      {item?.subject?.toUpperCase()}
+                    </h4>
+                  </Link>
+                  <div className="flex flex-wrap mt-5">
+                    <h6 className="font-bold text-sm sm:text-base md:text-lg">
+                      {item?.date}
+                    </h6>
+                    <h6 className="ms-auto font-bold text-sm sm:text-base md:text-lg">
+                      SUBMITED BY :
+                      <span className="text-warning ms-2">
+                        {" "}
+                        {item?.fullname}
+                      </span>
+                    </h6>
+                  </div>
+                  <hr className="my-2" />
+                  <p className="text-sm sm:text-base md:text-lg">
+                    {item?.description?.substring(0, 160)}
+                    .....
+                    <Link
+                      to={`/selected/${item._id}`}
+                      className="text-blue-600 hover:underline ms-2"
+                    >
+                      see more
+                    </Link>
+                  </p>
+                </div>
               </div>
-              <hr className="my-2" />
-              <p className="text-sm sm:text-base md:text-lg">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel et
-                sapiente optio. Sapiente, ex veniam, temporibus, ut sit sint
-                repellendus velit sequi qui totam consequuntur! Eius molestias
-                molestiae exercitationem expedita. Lorem, ipsum dolor sit amet
-                consectetur adipisicing elit. Quibusdam quis, iusto repellendus
-                officia pariatur porro maiores totam. Eligendi maxime a ab,
-                totam debitis illo eius eum quas ipsum? Aliquid, cupiditate!
-                .....
-                <Link to={`/selected`} className="text-blue-600 hover:underline ms-2">
-                  see more
-                </Link>
-              </p>
             </div>
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center px-4 md:px-10 lg:px-20 my-10">
+            <img
+              src="https://img.freepik.com/free-vector/man-saying-no-concept-illustration_114360-15962.jpg?t=st=1730308323~exp=1730311923~hmac=25a874bf515f96a3439e6c35df4371b335bee001e4baad6dd3572cae70ddf5d9&w=740"
+              alt="No users available"
+              className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto"
+            />
+            <p className="font-bold text-center text-lg md:text-xl lg:text-2xl mt-4">
+              There are no users available
+            </p>
           </div>
-        </div>
-
-
+        )}
       </div>
     </>
   );

@@ -83,8 +83,8 @@ function SolvedGrie() {
                 <img
                   width={"300"}
                   height={""}
-                  className="rounded border-2 border-red-800"
-                  src={noimage}
+                  className="rounded border-2 "
+                  src="https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
                 />
               </Link>
             </div>
@@ -105,13 +105,8 @@ function SolvedGrie() {
               </div>
               <hr className="my-2" />
               <p className="text-sm sm:text-base md:text-lg">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel et
-                sapiente optio. Sapiente, ex veniam, temporibus, ut sit sint
-                repellendus velit sequi qui totam consequuntur! Eius molestias
-                molestiae exercitationem expedita. Lorem, ipsum dolor sit amet
-                consectetur adipisicing elit. Quibusdam quis, iusto repellendus
-                officia pariatur porro maiores totam. Eligendi maxime a ab,
-                totam debitis illo eius eum quas ipsum? Aliquid, cupiditate!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel et
+              sapiente optio. Sapiente, ex veniam, temporibus, ut sit sint
                 .....
                 <Link to={`/selectSolved`} className="text-blue-600 hover:underline ms-2">
                   see more

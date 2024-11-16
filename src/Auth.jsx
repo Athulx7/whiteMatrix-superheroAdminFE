@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loginimage from "../src/assets/loginimage.png";
+import { loginAPI } from "./Serivces/allAPI";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 function Auth() {
+
+  const navigate = useNavigate()
+
     const [logindata,setLogindata] = useState({
         email:'',
         password:''
@@ -39,11 +45,40 @@ function Auth() {
 
 
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
         if(validation()){
-            console.log(logindata)
+            // console.log(logindata)
 
+            const result = await loginAPI(logindata)
+            // console.log(result)
+            if(result.status === 200){
+              if(result.data.data.role === 'admin'){
+                sessionStorage.setItem('admin',JSON.stringify(result.data.data))
+                sessionStorage.setItem("token",result.data.token)
+
+                Swal.fire({
+                  title: "Success!",
+                  text: 'Login successfully, "Explore now more!!!',
+                  icon: "success",
+                  confirmButtonText: "OK",
+                });
+                navigate('/home')
+              }
+              else{
+                toast.warning("invalid email or password")
+                
+              }
+            }
+            else{
+              toast.error("invalid email or password")
+            }
+
+            
+
+        }
+        else{
+          toast.warning("please fill the form completely")
         }
         
 
@@ -108,6 +143,13 @@ function Auth() {
                 >
                   LOGIN
                 </button>
+              </div>
+
+              <div className="text-center">
+                <p>
+                  Please Login to explore more{" "}
+                  
+                </p>
               </div>
 
              
