@@ -33,3 +33,23 @@ export const getGrievanceDetailsAPIForCount = async()=>{
 export const getSelectedGrie = async(gid)=>{
     return await commonAPI("GET",`${BASEURL}/shero/selectGrie/${gid}`,'','')
 }
+
+
+//add to solved grivance 
+
+export const addToSolvedGrivanceAPI = async(gid)=>{
+    return await commonAPI("POST",`${BASEURL}/shero/toSolvedGrievance/${gid}`,{},'')
+}
+
+
+//get solved grevamces
+
+export const getSolvedGreivnaceAPI  = async(searchKey)=>{
+    return await commonAPI("GET",`${BASEURL}/shero/getsolvedGrie?search=${searchKey}`,'','')
+}
+
+//get selected solved grievance 
+ export const getSelectedSolvedGrieAPI = async(gid)=>{
+    return await commonAPI("GET",`${BASEURL}/shero/selectSolved/${gid}`,'','')
+ }
+

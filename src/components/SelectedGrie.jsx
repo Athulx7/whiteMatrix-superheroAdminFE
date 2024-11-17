@@ -1,25 +1,50 @@
 import { faArrowLeft, faCheck, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import noimage from '../assets/noimage.png'
-import { getSelectedGrie } from '../Serivces/allAPI'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import {  addToSolvedGrivanceAPI, getSelectedGrie } from '../Serivces/allAPI'
 import { BASEURL } from '../Serivces/baseURL'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
 
 function SelectedGrie() {
+  const navigate = useNavigate()
   const {id} = useParams()
   // console.log(id)
   const [grievnaceData,setGrievanceData] = useState([])
 
   const getData = async ()=>{
     const result = await getSelectedGrie(id)
-    console.log(result)
+    // console.log(result)
     setGrievanceData(result.data)
   }
 
   useEffect(()=>{
     getData()
   },[id])
+
+  // console.log(grievnaceData)
+
+
+  const handleSolvedConfrim = async()=>{
+    const result = await addToSolvedGrivanceAPI(id)
+    // console.log(result)
+    if(result.status === 200){
+      Swal.fire({
+        title: "Success!",
+        text: `Griecance of ${grievnaceData.fullname} is succesfully solved view details in solved !!!`,
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      navigate('/viewGrievance')
+
+    }
+    else{
+      toast.error("something went wrong")
+    }
+
+  }
+
   return (
    <>
 <div className="container mx-auto mt-5 px-4 lg:px-8 mb-10 max-w-5xl">
@@ -37,10 +62,10 @@ function SelectedGrie() {
       <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
       BACK TO
     </Link>
-    <Link to="" className="inline-flex items-center bg-green-600 text-white font-bold px-4 py-1 rounded border-2 transition-transform duration-500 hover:scale-105">
+    <button onClick={handleSolvedConfrim}  className="inline-flex items-center bg-green-600 text-white font-bold px-4 py-1 rounded border-2 transition-transform duration-500 hover:scale-105">
       <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
       PROBLEM SOLVED, "CONFIRM HERE"
-    </Link>
+    </button>
   </div>
   
   <hr className="border-t border-gray-700 mt-4" />
@@ -113,8 +138,7 @@ function SelectedGrie() {
 </div>
 
 
-   {/*  */}
-
+  
 
    
    </>

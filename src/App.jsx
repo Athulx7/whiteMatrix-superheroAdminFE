@@ -72,7 +72,7 @@ function App() {
   <Route path='/viewGrievance' element={<ViewGrievance />} />
   <Route path='/selected/:id' element={<SelectedGrie />} />
   <Route path='/solvedGrievance' element={<SolvedGrie />} />
-  <Route path='/selectSolved' element={<SelectSolved />} />
+  <Route path='/selectSolved/:id' element={<SelectSolved />} />
   <Route path='/' element={<Auth />} />
 </Routes>
 

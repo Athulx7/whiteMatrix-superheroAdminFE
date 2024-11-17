@@ -2,10 +2,28 @@ import { faArrowLeft, faCheck, faSquareCheck } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import noimage from '../assets/noimage.png'
-import { getSelectedGrie } from '../Serivces/allAPI'
+import { getSelectedSolvedGrieAPI } from '../Serivces/allAPI'
+import { BASEURL } from '../Serivces/baseURL'
+
 
 function SelectSolved() {
+
+  const {id} = useParams()
+  const [grievnaceData,setGrievanceData] = useState([])
+
+
+  const getSelectedGrie  = async()=>{
+    const reuslt = await getSelectedSolvedGrieAPI(id)
+    // console.log(reuslt)
+    setGrievanceData(reuslt.data)
+  }
+
+  useEffect(()=>{
+    getSelectedGrie()
+  },[id])
+
+
+
   
   return (
    <>
@@ -14,8 +32,8 @@ function SelectSolved() {
   
 
   <div className="flex items-center justify-center">
-    <h3 className="text-red-800 font-bold text-2xl lg:text-3xl mt-5 text-center">
-      TITLE OR SUBJECT
+    <h3 className="text-green-600 font-bold text-2xl lg:text-3xl mt-5 text-center">
+    {grievnaceData?.subject?.toUpperCase()}
     </h3>
   </div>
 
@@ -34,40 +52,40 @@ function SelectSolved() {
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:ms-10 max-w-4xl mx-auto mt-5">
     <div>
       <label className="font-semibold text-gray-700">Full Name:</label>
-      <p className="text-black">John Doe</p>
+      <p className="text-black">{grievnaceData?.fullname}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Email:</label>
-      <p className="text-black">john.doe@example.com</p>
+      <p className="text-black">{grievnaceData?.email}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Phone:</label>
-      <p className="text-black">123-456-7890</p>
+      <p className="text-black">{grievnaceData?.phone? grievnaceData?.phone : 'No phone available'}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Location:</label>
-      <p className="text-black">New York, USA</p>
+      <p className="text-black">{grievnaceData?.location}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Grievance Type:</label>
-      <p className="text-black">Service Issue</p>
+      <p className="text-black">{grievnaceData?.grievanceType}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Priority:</label>
-      <p className="text-black">High</p>
+      <p className="text-black">{grievnaceData?.priority}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Contact Method:</label>
-      <p className="text-black">Email</p>
+      <p className="text-black">{grievnaceData?.contactMethod}</p>
     </div>
     <div>
       <label className="font-semibold text-gray-700">Date:</label>
-      <p className="text-black">21-01-2024</p>
+      <p className="text-black">{grievnaceData?.date}</p>
     </div>
-    <div className="md:col-span-2">
+    {/* <div className="md:col-span-2">
       <label className="font-semibold text-gray-700">Evidence:</label>
       <p className="text-black">No evidence provided.</p>
-    </div>
+    </div> */}
   </div>
 
 
@@ -75,16 +93,21 @@ function SelectSolved() {
     <div className="text-justify lg:w-1/2">
       <label className="font-semibold text-gray-700">Description:</label>
       <p className="mt-5">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. A facere similique consequatur excepturi porro ipsa non at eum nesciunt doloremque magnam corrupti rerum alias praesentium quae, veniam tempora accusamus inventore...
+      {grievnaceData?.description}
       </p>
     </div>
     <div className="mt-6 lg:mt-0 flex justify-center lg:w-1/2 lg:ms-10">
       <img
-        src="https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
+      src={
+        grievnaceData.evidence
+          ? `${BASEURL}/uploads/${grievnaceData.evidence}`
+          : "https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
+      }
+        // src="https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
         alt="Blog Image"
-        width={200}
+        width={300}
         height={300}
-        className=" lg:ms-24 lg:max-w-lg h-auto rounded border-2 border-red-800"
+        className=" lg:ms-24 lg:max-w-lg h-auto rounded border-2 border-green-600"
       />
     </div>
   </div>
