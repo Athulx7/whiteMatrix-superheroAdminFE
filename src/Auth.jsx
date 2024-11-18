@@ -65,13 +65,19 @@ function Auth() {
                 });
                 navigate('/home')
               }
-              else{
+              else if(result.data.data.role === 'user'){
                 toast.warning("invalid email or password")
                 
               }
+              else{
+                toast.error("something went wrong")
+              }
+            }
+            else if(result.status === 400){
+              toast.error("invalid email or password")
             }
             else{
-              toast.error("invalid email or password")
+              toast.error("something went wrong")
             }
 
             
