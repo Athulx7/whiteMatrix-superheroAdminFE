@@ -1,1 +1,1 @@
-export const BASEURL = 'https://whitematrix-superherobe-1.onrender.com'
+export const BASEURL = 'https://whitematrix-superherobe.onrender.com'
